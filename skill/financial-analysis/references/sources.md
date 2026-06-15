@@ -51,26 +51,26 @@
 ### A股价格获取回退链
 
 ```yaml
-优先级 1 — WebSearch（同时搜索 2 个关键词）:
+优先级 1 — 网络搜索（同时搜索 2 个关键词）:
   查询1: "{股票名} {6位代码} 今日收盘价 {YYYY年MM月}"
   查询2: "SH{代码} 或 SZ{代码} 实时股价 {YYYY-MM-DD}"
   成功条件: 搜索结果中包含具体数字价格且来源可辨认
 
-优先级 2 — WebFetch 新浪实时行情:
+优先级 2 — 访问新浪财经实时行情页面:
   上证: https://hq.sinajs.cn/list=sh{6位代码}
   深证: https://hq.sinajs.cn/list=sz{6位代码}
   返回格式: CSV字符串，第4字段为当前价，第3字段为昨收
   示例: sh600519 → 贵州茅台
 
-优先级 3 — WebFetch 东方财富:
+优先级 3 — 访问东方财富 API:
   URL: https://push2.eastmoney.com/api/qt/stock/get?secid={市场代码}.{股票代码}&fields=f43,f57,f58
   市场代码: 1=上证, 0=深证
 
-优先级 4 — WebFetch 腾讯财经:
+优先级 4 — 访问腾讯财经实时行情:
   URL: https://qt.gtimg.cn/q=sh{代码}  (上证)
   URL: https://qt.gtimg.cn/q=sz{代码}  (深证)
 
-优先级 5 — WebSearch 最新财经新闻提取:
+优先级 5 — 搜索最新财经新闻提取价格:
   查询: "{股票名} 股价 {YYYY-MM-DD}"
   注意: 仅接受新闻发布时间在 2 个交易日内的数据，必须标注来源和时间
 
@@ -82,23 +82,23 @@
 ### 美股/ETF 价格获取回退链
 
 ```yaml
-优先级 1 — WebSearch:
+优先级 1 — 网络搜索:
   查询1: "{Ticker} stock price {YYYY-MM-DD}"
   查询2: "{公司名} {Ticker} share price today"
   成功条件: 搜索结果中有具体价格数字
 
-优先级 2 — WebFetch Yahoo Finance:
+优先级 2 — 访问 Yahoo Finance:
   URL: https://finance.yahoo.com/quote/{Ticker}/
   提取: "regularMarketPrice" 或页面中的当前价格
 
-优先级 3 — WebFetch Google Finance:
+优先级 3 — 访问 Google Finance:
   URL: https://www.google.com/finance/quote/{Ticker}:NYSE
   URL: https://www.google.com/finance/quote/{Ticker}:NASDAQ
 
-优先级 4 — WebFetch Stock Analysis:
+优先级 4 — 访问 Stock Analysis:
   URL: https://stockanalysis.com/stocks/{小写ticker}/
 
-优先级 5 — WebSearch 最新新闻提取:
+优先级 5 — 搜索最新新闻提取价格:
   查询: "{Ticker} stock {YYYY Month} price"
   同上，仅接受 2 交易日内的数据
 
@@ -108,17 +108,17 @@
 ### 港股价格获取回退链
 
 ```yaml
-优先级 1 — WebSearch:
+优先级 1 — 网络搜索:
   查询1: "{股票名} 港股 {4位代码} 今日股价 {YYYY年MM月}"
   查询2: "{4位代码}.HK stock price today"
 
-优先级 2 — WebFetch Yahoo Finance:
+优先级 2 — 访问 Yahoo Finance:
   URL: https://finance.yahoo.com/quote/{4位代码}.HK/
 
-优先级 3 — WebFetch 阿斯达克:
+优先级 3 — 访问阿斯达克:
   URL: https://www.aastocks.com/tc/stocks/quote/quick-quote.aspx?symbol={6位代码}
 
-优先级 4 — WebFetch 新浪港股:
+优先级 4 — 访问新浪港股:
   URL: https://hq.sinajs.cn/list=rt_hk{5位代码}
 
 失败处理: 同上，声明获取失败
